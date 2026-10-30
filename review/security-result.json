@@ -1,0 +1,142 @@
+{
+  "date": "2026-10-30T06:04:59.360Z",
+  "results": [
+    {
+      "id": "S1",
+      "name": "빈 제목",
+      "expect": 400,
+      "status": 400,
+      "pass": true,
+      "body": "{\"error\":\"할 일 내용을 입력하세요.\"}"
+    },
+    {
+      "id": "S2",
+      "name": "제목 201자",
+      "expect": 400,
+      "status": 400,
+      "pass": true,
+      "body": "{\"error\":\"할 일은 200자까지 쓸 수 있어요.\"}"
+    },
+    {
+      "id": "S3",
+      "name": "태그 11개",
+      "expect": 400,
+      "status": 400,
+      "pass": true,
+      "body": "{\"error\":\"태그는 10개까지 붙일 수 있어요.\"}"
+    },
+    {
+      "id": "S4",
+      "name": "태그 21자",
+      "expect": 400,
+      "status": 400,
+      "pass": true,
+      "body": "{\"error\":\"태그 하나는 20자까지예요.\"}"
+    },
+    {
+      "id": "S5",
+      "name": "날짜 형식 틀림",
+      "expect": 400,
+      "status": 400,
+      "pass": true,
+      "body": "{\"error\":\"마감일은 YYYY-MM-DD 형식이어야 해요.\"}"
+    },
+    {
+      "id": "S6",
+      "name": "없는 날짜 2026-02-30",
+      "expect": 400,
+      "status": 400,
+      "pass": true,
+      "body": "{\"error\":\"저장할 수 없는 값이에요. (예: 없는 날짜)\"}"
+    },
+    {
+      "id": "S7",
+      "name": "JSON 아님",
+      "expect": 400,
+      "status": 400,
+      "pass": true,
+      "body": "{\"error\":\"JSON 형식이 아니에요.\"}"
+    },
+    {
+      "id": "S8",
+      "name": "본문 10KB 초과",
+      "expect": 400,
+      "status": 400,
+      "pass": true,
+      "body": "{\"error\":\"요청이 너무 커요.\"}"
+    },
+    {
+      "id": "S9",
+      "name": "is_done에 문자열",
+      "expect": 400,
+      "status": 400,
+      "pass": true,
+      "body": "{\"error\":\"is_done는 true/false여야 해요.\"}"
+    },
+    {
+      "id": "S10",
+      "name": "XSS 문자열 제목 저장(글자로 저장되면 정상)",
+      "expect": 201,
+      "status": 201,
+      "pass": true,
+      "body": "{\"id\":1}"
+    },
+    {
+      "id": "S11",
+      "name": "검색에 SQL 인젝션 문자열 ' OR 1=1 --",
+      "expect": 200,
+      "status": 200,
+      "pass": true,
+      "body": "[]",
+      "detail": "결과 0건 (0건이면 인젝션 안 됨)"
+    },
+    {
+      "id": "S12",
+      "name": "본문이 null (POST)",
+      "expect": 400,
+      "status": 500,
+      "pass": false,
+      "body": "{\"error\":\"서버 오류가 났어요.\"}"
+    },
+    {
+      "id": "S13",
+      "name": "본문이 null (PATCH)",
+      "expect": 400,
+      "status": 500,
+      "pass": false,
+      "body": "{\"error\":\"서버 오류가 났어요.\"}"
+    },
+    {
+      "id": "S14",
+      "name": "due_date에 배열",
+      "expect": 400,
+      "status": 500,
+      "pass": false,
+      "body": "{\"error\":\"서버 오류가 났어요.\"}"
+    },
+    {
+      "id": "S15",
+      "name": "다른 사이트발 text/plain POST (CSRF, 막혀야 정상)",
+      "expect": 403,
+      "status": 201,
+      "pass": false,
+      "body": "{\"id\":2}"
+    },
+    {
+      "id": "S16",
+      "name": "Host 헤더가 외부 도메인 (DNS 리바인딩, 막혀야 정상)",
+      "expect": 403,
+      "status": 200,
+      "pass": false,
+      "body": "[{\"id\":2,\"title\":\"csrf로 들어온 할 일\",\"is_done\":false,\"due_date\":null,\"created_at\":\"2026-10-30 15:04:59\",\"tags\":[]},{\"id\":1,\"title\":\"<img src=x onerror=alert(1)>\",\"i"
+    },
+    {
+      "id": "S17",
+      "name": "LAN 주소(192.168.xxx.xxx)로 접속 (막혀야 정상)",
+      "expect": "연결 거부",
+      "status": 200,
+      "pass": false
+    }
+  ],
+  "serverErrors": "TypeError: Cannot read properties of null (reading 'title')\n    at cleanNewTodo (file:///<프로젝트 폴더>/server.js:62:29)\n    at handle (file:///<프로젝트 폴더>/server.js:123:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\nTypeError: Cannot destructure property 'is_done' of '(intermediate value)' as it is null.\n    at handle (file:///<프로젝트 폴더>/server.js:135:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\nTypeError: Provided value cannot be bound to SQLite parameter 2.\n    at addTodo (file:///<프로젝트 폴더>/server.js:45:48)\n    at handle (file:///<프로젝트 폴더>/server.js:123:16)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {\n  code: 'ERR_INVALID_ARG_TYPE'\n}\n"
+}
